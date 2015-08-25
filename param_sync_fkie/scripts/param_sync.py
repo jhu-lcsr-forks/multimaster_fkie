@@ -14,6 +14,7 @@ def master_changed(msg, cb_args):
             if name_to != name_from:
                 rospy.loginfo("Getting params from...".format(name_from))
                 params_from = master_from['/']
+                del params_from['/_']
                 rospy.loginfo("Syncing params from {} to {}...".format(name_from, name_to))
                 if param_cache.get(name_from, None) != params_from:
                     param_cache[name_from] = params_from
