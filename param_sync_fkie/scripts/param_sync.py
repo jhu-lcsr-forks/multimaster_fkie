@@ -14,14 +14,14 @@ def master_changed(msg, cb_args):
                 rospy.logdebug("Getting params from...".format(name_from))
                 params_from = master_from['/']
                 rospy.logdebug("Got {} params.".format(len(params_from)))
-                if '_' in params_from:
-                    del params_from['_']
-                if '/_' in params_from:
-                    del params_from['/_']
+                if name_to in params_from:
+                    del params_from[name_to]
+                if '/'+name_to in params_from:
+                    del params_from['/'+name_to]
                 rospy.logdebug("Syncing params from {} to {}...".format(name_from, name_to))
                 if param_cache.get(name_from, None) != params_from:
                     param_cache[name_from] = params_from
-                    master_to['/_/'+name_from] = params_from
+                    master_to['/'+name_from] = params_from
                     rospy.logdebug("Done syncing params from {} to {}.".format(name_from, name_to))
                 else:
                     rospy.logdebug("Params have not changed from {} to {}.".format(name_from, name_to))
